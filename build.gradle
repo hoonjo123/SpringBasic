@@ -28,7 +28,12 @@ dependencies {//starter종속성은 별도의 버전관리 필요가 없음 -> �
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	//테스트를 위한 의존성
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'//lombok 추가
+//Getter, Setter 및 로그관련 의존성
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+
 }
 // test 라이브러리로 주로 jUnit을 사용.
 tasks.named('test') {
