@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MembersController {
 
     private MemberService memberService;
-    MemberController(){
+    void MemberController(){
         memberService = new MemberService();
     }
 

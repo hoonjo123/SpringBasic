@@ -1,8 +1,21 @@
 package com.encore.basic.repository;
 
-public class MemoryMemberRepositoy {
-    private final List<> memberDB;
-    MemoryMemberRepository(){
+import com.encore.basic.domain.Member;
 
+import java.util.ArrayList;
+import java.util.List;
+
+public class MemoryMemberRepositoy {
+    private List<Member> memberDB;
+    void MemoryMemberRepository(){
+        memberDB = new ArrayList<Member>();
+    }
+
+    public List<Member> members(){
+        return memberDB;
+    }
+
+    public void memberCreate(Member member){
+        memberDB.add(member);
     }
 }
