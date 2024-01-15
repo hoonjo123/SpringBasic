@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns th="http://www.thymeleaf.ofg" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>회원등록 / 회원목록조회</h1>
+<div th:fragment="headerFragment">
+    <a>
+        <input type="button" value="회원등록" onclick="location.href='/members/create'">
+    </a>
+    <a>
+        <input type="button" value="회원목록조회" onclick="location.href='/members'">
+    </a>
+</div>
+</body>
+</html>

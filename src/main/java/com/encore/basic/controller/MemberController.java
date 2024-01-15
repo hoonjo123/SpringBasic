@@ -3,15 +3,17 @@ package com.encore.basic.controller;
 import com.encore.basic.domain.MemberRequestDto;
 import com.encore.basic.service.MemberService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class MembersController {
+public class MemberController {
 
-    private MemberService memberService;
-    void MemberController(){
+    private final MemberService memberService;
+    MemberController(){
         memberService = new MemberService();
     }
 
@@ -24,19 +26,24 @@ public class MembersController {
 
 
     @GetMapping("members")
-    public String memberListScreen(){
+    public String members(Model model){
+        model.addAttribute("members", memberService.members());
         return "member/member-list";
     }
 
 
 
     @PostMapping("members/create")
-    @ResponseBody
-    public String memberCreate(MemberRequestDto memberRequestDto){
-        System.out.println("name : " + memberRequestDto.getName());
-        System.out.println("email : " +memberRequestDto.getEmail());
-        System.out.println("password : " +memberRequestDto.getPassword());
-        return "ok";
+
+    public String memberCreate(MemberRequestDto memberRequestDto) {
+        memberService.memberCreate(memberRequestDto);
+        return "redirect:/members";
     }
 
+
+    //home생성
+    @GetMapping("/")
+    public String home() {
+        return "member/header";
+    }
 }

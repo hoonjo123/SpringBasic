@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns th="http://www.thymeleaf.ofg" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>member-list</title>
 </head>
 <body>
-    <table>
-        <tr><th>이름</th><th>이메일</th><th>비밀번호</th></tr>
-        <tr><td>kim</td><td>kim@naver.com</td><td>1234</td></tr>
-        <tr><td>jo</td><td>jo@naver.com</td><td>12345</td></tr>
-        <tr><td>park</td><td>park@naver.com</td><td>1234</td></tr>
-    </table>
-
+<div th:replace="member/header :: headerFragment"></div>
+<table>
+    <tr><th>이름</th><th>이메일</th><th>비밀번호</th></tr>
+    <tr th:each = "memberResDto : ${members}" >
+        <td th:text="${memberResDto.name}"></td>
+        <td th:text="${memberResDto.email}"></td>
+        <td th:text="${memberResDto.password}"></td>
+    </tr>
+</table>
 </body>
 </html>
