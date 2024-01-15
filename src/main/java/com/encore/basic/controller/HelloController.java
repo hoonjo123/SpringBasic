@@ -1,6 +1,7 @@
 package com.encore.basic.controller;
 
 import com.encore.basic.domain.Hello;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -74,9 +75,21 @@ public class HelloController {
                                  @RequestParam(value = "password")String password){
         System.out.println("name = " + name);
         System.out.println("email = " + email);
-        System.out.println("password = " + password);
+        System.out.println("pass word = " + password);
         return "정상처리";
     }
+
+
+    @PostMapping("form-post-handle2")
+    @ResponseBody
+    //Spring에서 Hello클래스의 인스턴스를 자동 매핑하여 생성
+    //form-data형식, 즉, x-www-url인코딩 형식의 경우 사용
+    //이를 데이터 바인딩 이라 부른다.(Hello클래스에 setter필수)
+    public String formPostHandle2(Hello hello){
+        System.out.println(hello);
+        return "정상처리";
+    }
+
 
 
     //json데이터 처리
@@ -91,6 +104,31 @@ public class HelloController {
         System.out.println("이름 : " + body.get("name"));
         System.out.println("email :" + body.get("email"));
         System.out.println("password : " + body.get("password"));
-        return "정상처리";
+
+        Hello hello = new Hello();
+        hello.setName(body.get("name"));
+        hello.setEmail(body.get("email"));
+        hello.setPassword(body.get("password"));
+        return "ok";
     }
+
+    @PostMapping("/json-post-handle2")
+    @ResponseBody
+    public String jsonPostHandle2(@RequestBody JsonNode body) {
+        Hello hello = new Hello();
+        hello.setName(body.get("name").asText());
+        hello.setEmail(body.get("email").asText());
+        hello.setPassword(body.get("password").asText());
+        return "ok";
+    }
+
+    @PostMapping("/json-post-handle3")
+    @ResponseBody
+    //객체로 받는 법
+    public String jsonPostHandle3(@RequestBody Hello hello) {
+        System.out.println(hello);
+        return "ok";
+    }
+
+
 }

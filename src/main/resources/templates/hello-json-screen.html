@@ -19,12 +19,17 @@
             email: document.getElementById("email").value,
             password: document.getElementById("password").value
         }
-        const response = await axios({
-            method: 'POST',
-            url: "http://localhost:8080/hello/json-post-handle1",
-            data: JSON.stringify(jsonData), // 직렬화
-            headers: {'Content-Type':'application/json'}
-        });
+        try{
+            const response = await axios({
+                method: 'POST',
+                url: "http://localhost:8080/hello/json-post-handle3",
+                data: JSON.stringify(jsonData), // 직렬화
+                headers: {'Content-Type':'application/json'}
+            });
+            window.location.href = '/hello/screen'; //화면이동href
+        }catch(e){
+            console.log(e);
+        }
     }
 </script>
 </body>

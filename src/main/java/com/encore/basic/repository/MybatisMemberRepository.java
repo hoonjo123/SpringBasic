@@ -1,2 +1,4 @@
-package com.encore.basic.repository;public class MybatisMemberRepository {
+package com.encore.basic.repository;
+
+public interface MybatisMemberRepository {
 }

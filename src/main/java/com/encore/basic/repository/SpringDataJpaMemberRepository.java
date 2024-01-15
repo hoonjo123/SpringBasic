@@ -1,2 +1,4 @@
-package com.encore.basic.repository;public interface SpringDataJpaMemberRepository {
+package com.encore.basic.repository;
+
+public interface SpringDataJpaMemberRepository {
 }
