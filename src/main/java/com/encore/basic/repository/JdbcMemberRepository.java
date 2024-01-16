@@ -10,6 +10,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+/*레거시 Jdbc
+* 조회부분 자동화는 어려운걸까?
+* */
+
+//유지보수가 굉장히 어렵다(코드가 너무 길어서)
 @Repository
 public class JdbcMemberRepository implements MemberRepository {
 
@@ -62,12 +68,13 @@ public class JdbcMemberRepository implements MemberRepository {
     @Override
     public Optional<Member> findById(int inputid) {
         String sql = "select * from member where id =?";
-        try (
+
+        try(
                 Connection connection = dataSource.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, inputid);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
+            if(resultSet.next()) {
                 String name = resultSet.getString("name");
                 String email = resultSet.getString("email");
                 String password = resultSet.getString("password");
@@ -75,12 +82,11 @@ public class JdbcMemberRepository implements MemberRepository {
                 member.setId(resultSet.getInt("id"));
                 member.setCreate_time(resultSet.getTimestamp("create_time").toLocalDateTime());
                 return Optional.of(member);
-            } else {
-                return Optional.empty();
             }
-        } catch (SQLException e) {
+        } catch(SQLException e) {
             e.printStackTrace();
+        }
             return Optional.empty();
         }
     }
-}
+

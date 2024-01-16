@@ -21,6 +21,5 @@ public class Member {
                 this.name = name;
                 this.email = email;
                 this.password = password;
-
         }
 }
