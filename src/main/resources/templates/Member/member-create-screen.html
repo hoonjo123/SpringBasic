@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns th="http://www.thymeleaf.ofg" xmlns:th="http://www.w3.org/1999/xhtml">
+<!-- 템플릿 엔진(JSP, Thymlear)을 사용-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>member create screen</title>
+  <div th:replace="member/header :: headerFragment"></div>
+  <title>회원가입</title>
 </head>
 <body>
-<div th:replace="member/header :: headerFragment"></div>
-<form action="http://localhost:8080/members/create" method="POST" enctype="application/x-www-form-urlencoded">
-  <h2>멤버</h2>
+<form action="http://localhost:8080/members/create" method="POST">
   <p>
-    <label>name</label>
+    <label>이름</label>
     <input type="text" name="name" maxlength="10" size="15">
   </p>
 
   <p>
     <label>email</label>
-    <input type="text" name="email" maxlength="30" size="30">
+    <input type="text" name="email" maxlength="15" size="20">
   </p>
 
   <p>
