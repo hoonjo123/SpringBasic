@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
+
 @Controller // 내부 @Component를 통해 "스프링 빈"으로 등록
 //@RequiredArgsConstructor
 public class MemberController {
@@ -63,8 +65,12 @@ public class MemberController {
 
     @GetMapping("member/find")
     public String findMember(@RequestParam("id") int id, Model model){
-        MemberResponseDto memberResponseDto = memberService.findById(id);
-        model.addAttribute("member", memberService.findById(id));
-        return "member/member-detail";
+        try {
+            MemberResponseDto memberResponseDto = memberService.findById(id);
+            model.addAttribute("member", memberService.findById(id));
+            return "member/member-detail";
+        }catch (NoSuchElementException e){
+            return "member/404-error-page";
+        }
     }
 }
