@@ -33,8 +33,14 @@ dependencies {//starter종속성은 별도의 버전관리 필요가 없음 -> �
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	//db연결을 위한 의존성 : jdbc, mariadb 클라이언트
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.mariadb.jdbc:mariadb-java-client'
+
+	//Spring date jpa의존성 추가
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	//mybatis 의존성 추가
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
 }
 // test 라이브러리로 주로 jUnit을 사용.
 tasks.named('test') {

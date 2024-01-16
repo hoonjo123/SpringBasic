@@ -1,15 +1,68 @@
 <!DOCTYPE html>
-<!-- 템플릿 엔진(JSP, Thymlear)을 사용-->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e9ecef;
+            text-align: center;
+        }
+
+        .header {
+            background-color: #007bff;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: white;
+            margin: 0;
+            font-size: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
-<div th:fragment="headerFragment">
-    <a href="/members/create">회원등록</a>
-    <a href="/members">회원목록조회</a>
+<div class="header">
+    <h1>Join & Search</h1>
 </div>
+
+<div th:fragment="headerFragment">
+    <button class="btn" id="registerButton">회원등록</button>
+    <button class="btn" id="listButton">회원목록조회</button>
+</div>
+<script>
+    document.getElementById('registerButton').addEventListener('click', function() {
+
+        location.href = '/members/create';
+    });
+
+    document.getElementById('listButton').addEventListener('click', function() {
+        alert('회원목록 조회 페이지로 이동합니다.');
+
+        location.href = '/members';
+    });
+</script>
+
 </body>
 </html>

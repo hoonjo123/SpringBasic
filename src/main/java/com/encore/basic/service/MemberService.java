@@ -3,9 +3,7 @@ package com.encore.basic.service;
 import com.encore.basic.domain.Member;
 import com.encore.basic.domain.MemberRequestDto;
 import com.encore.basic.domain.MemberResponseDto;
-import com.encore.basic.repository.JdbcMemberRepository;
-import com.encore.basic.repository.MemberRepository;
-import com.encore.basic.repository.MemoryMemberRepository;
+import com.encore.basic.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +20,11 @@ import java.util.NoSuchElementException;
 public class MemberService {
     private final MemberRepository memberRepository;
     @Autowired
-    public MemberService(JdbcMemberRepository jdbcMemberRepository) {
-        this.memberRepository = jdbcMemberRepository;
+    public MemberService(MybatisMemberRepository mybatisMemberRepository) {
+        this.memberRepository = mybatisMemberRepository;
     }
     public List<MemberResponseDto> members(){
+
         List<Member> members = memberRepository.findAll();
         List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
         for(Member member : members){

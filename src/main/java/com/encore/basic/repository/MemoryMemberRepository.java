@@ -11,7 +11,6 @@ import java.util.Optional;
 @Repository // 내부 @Component를 통해 "스프링 빈"으로 등록
 public class MemoryMemberRepository implements MemberRepository{
 
-
     static int total_id;
     private final List<Member> memberDB;
     public MemoryMemberRepository(){
