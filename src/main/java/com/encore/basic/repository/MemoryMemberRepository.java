@@ -8,9 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository // 내부 @Component를 통해 "스프링 빈"으로 등록
+@Repository
 public class MemoryMemberRepository implements MemberRepository{
-
     static int total_id;
     private final List<Member> memberDB;
     public MemoryMemberRepository(){
@@ -26,9 +25,9 @@ public class MemoryMemberRepository implements MemberRepository{
     public Member save(Member member){
         ++total_id;
         LocalDateTime now = LocalDateTime.now();
-        memberDB.add(member);
         member.setId(total_id);
         member.setCreate_time(now);
+        memberDB.add(member);
         return member;
     }
 
@@ -40,5 +39,10 @@ public class MemoryMemberRepository implements MemberRepository{
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public void delete(Member member) {
+
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.NoSuchElementException;
 
 @Controller // 내부 @Component를 통해 "스프링 빈"으로 등록
@@ -40,7 +41,7 @@ public class MemberController {
     public String members(Model model){
         // memberResponseDtos 가져옴
         // 사용자는 Member 객체가 아닌 DTO 객체에 있는 정보만 필요함
-        model.addAttribute("members", memberService.members());
+        model.addAttribute("members", memberService.findAll());
         return "member/memberList";
     }
 
@@ -52,8 +53,17 @@ public class MemberController {
 
     @PostMapping("members/create")
     public String create(MemberRequestDto memberRequestDto){
-        System.out.println(memberRequestDto);
-        memberService.memberCreate(memberRequestDto);
+//        //트랜잭션 및 예외처리 테스트
+//        // Service에서 예외가 발생하면 Service는 @Transactional 어노테이션을 통해 DB rollback ⭐
+//        // Controller는 사용자에게 적절한 화면 return ⭐
+//        try{
+//            System.out.println(memberRequestDto);
+//            memberService.createMember(memberRequestDto);
+//            return "redirect:/members"; //url 리다이렉트
+//        }catch (IllegalArgumentException e){
+//            return "404-error-page"; //404 에러 페이지
+//        }
+        memberService.createMember(memberRequestDto);
         return "redirect:/members"; //url 리다이렉트
     }
 
@@ -66,11 +76,35 @@ public class MemberController {
     @GetMapping("member/find")
     public String findMember(@RequestParam("id") int id, Model model){
         try {
+            // Unckecked Exception이기 때문에 예외 처리가 강제되지 않아 없어도 오류가 발생하지 않는다.
             MemberResponseDto memberResponseDto = memberService.findById(id);
-            model.addAttribute("member", memberService.findById(id));
-            return "member/member-detail";
-        }catch (NoSuchElementException e){
-            return "member/404-error-page";
+            model.addAttribute("member", memberResponseDto);
+            return "member/member-find-screen";
+        } catch (EntityNotFoundException e) {
+            return "404-error-page";
+        }
+    }
+
+    @GetMapping("member/delete")
+    public String deleteMember(@RequestParam("id") int id){
+        try{
+            memberService.deleteMember(id);
+            return "redirect:/members";
+        } catch (EntityNotFoundException e){
+            return "404-error-page";
+        }
+    }
+
+    @PostMapping("member/update")
+    public String updateMember(MemberRequestDto memberRequestDto, Model model){
+        try{
+            memberService.updateMember(memberRequestDto);
+
+            model.addAttribute("member", memberRequestDto);
+            return "redirect:/member/find?id=" + memberRequestDto.getId();
+        }
+        catch (EntityNotFoundException e){
+            return "404-error-page";
         }
     }
 }

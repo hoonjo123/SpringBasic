@@ -4,42 +4,40 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-//모든 매개변수를 넣은 생성자
 @Getter
-
-//entity annotation을 통해 mariadb의 테이블 및 컬럼을 자동생성
-//class명은 테이블명, 변수명은 컬럼명
-//jdbc에서는 쿼리생성 후 실행 -> 조회결과를 member객체로 변환하였지만 jpa에서는 쿼리 생성을 자동화해준다.
-//어떤 테이블 대상으로 쿼리를 실행할지 알려줘야함.
-//findByName,findById,findByEmail 등..
-
-//1)테이블 및 컬럼 생성 자동화(ddl auto)
-//2)dml쿼리 생성 자동화 : 메서드 명으로 약속. findAll
-//3)return까지 자동화!
+//Entity 어노테이션을 통해 mariaDB 테이블 및 컬럼을 자동 생성
+//Class 명은 테이블명, 변수명은 컬럼명
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor //기본 생성자 말고 다른 생성자가 있을 때 추가해줘야 함.
+//// JPA가 모든 속성에 setter로 런타임에 값을 넣어줘야 하기 때문이다.
 public class Member {
         @Setter
-        @Id//pk설정
-        //identity = auto_increment setting. auto = jpa구현체가 자동으로 적절한 키생성 전략선택.
+        @Id //pk 설정
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int id;
-        //String -> Varchar(255)
+        private int id; //Repository에서 set하기 위해 어쩔 수 없이 붙임 (DB와 싱크를 맞추기 위해 필요함)
+        // String은 DB의 varchar로 자동 변환
+        @Setter
         private String name;
         @Column(nullable = false, length = 50)
         private String email;
+        @Setter
         private String password;
-        @Setter //memoryDB때문에 어쩔수 없이
-        @Column(name = "created_time")  //name option을 통해 db의 컬럼명 별도 지정가능
+        @Setter
+        @Column(name = "created_time") //name 옵션을 통해 DB의 컬럼명 별도 지정 가능
+        @CreationTimestamp
         private LocalDateTime create_time;
+        @UpdateTimestamp
+        private LocalDateTime updated_time;
         public Member(String name, String email, String password){
                 this.name = name;
                 this.email = email;
                 this.password = password;
-                create_time = LocalDateTime.now();
+                //this.create_time = LocalDateTime.now();
         }
 }
